@@ -1,5 +1,8 @@
 package pages;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,6 +26,16 @@ public class HomePage extends BasePage {
      * Click Tutorials menu.
      */
     public void clickTutorials() {
+
+        List<WebElement> popup = driver.findElements(
+                By.xpath("//p[contains(text(),'Your trial has expired')]"));
+
+        if (popup.size() > 0) {
+
+            driver.findElement(
+                    By.xpath("//button[normalize-space()='Close']"))
+                    .click();
+        }
 
         waitUtil.waitForClickable(tutorials).click();
     }
