@@ -12,7 +12,7 @@ public class HtmlToCssNavigationTest2 extends BaseTest {
 
     @Test(
             priority = 7,
-            groups = { "smoke" },
+            groups = { "sanity" },
             description = "Navigate from HTML directly to CSS"
     )
     public void verifyHtmlToCssNavigation() {
