@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import utilities.ScreenshotUtil;
+
 public class HomePage extends BasePage {
 
     public HomePage(WebDriver driver) {
@@ -27,8 +29,13 @@ public class HomePage extends BasePage {
      */
     public void clickTutorials() {
 
+        System.out.println("Current URL : " + driver.getCurrentUrl());
+        System.out.println("Page Title  : " + driver.getTitle());
+
         List<WebElement> popup = driver.findElements(
                 By.xpath("//p[contains(text(),'Your trial has expired')]"));
+
+        System.out.println("Popup count : " + popup.size());
 
         if (popup.size() > 0) {
 
@@ -37,7 +44,8 @@ public class HomePage extends BasePage {
                     .click();
         }
 
-        waitUtil.waitForClickable(tutorials).click();
+        		ScreenshotUtil.captureScreenshot("BeforeTutorialClick");
+                waitUtil.waitForClickable(tutorials).click();
     }
 
     /**
