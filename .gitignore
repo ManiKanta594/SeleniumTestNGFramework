@@ -1,0 +1,24 @@
+# Maven
+target/
+
+# TestNG
+test-output/
+
+# Logs
+logs/
+*.log
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# IntelliJ
+.idea/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
