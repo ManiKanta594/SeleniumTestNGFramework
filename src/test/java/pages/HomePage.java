@@ -1,13 +1,15 @@
 package pages;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import utilities.ScreenshotUtil;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePage extends BasePage {
 
@@ -29,24 +31,37 @@ public class HomePage extends BasePage {
      */
     public void clickTutorials() {
 
-        System.out.println("========== HOME PAGE DEBUG ==========");
-        System.out.println("Current URL : " + driver.getCurrentUrl());
-        System.out.println("Page Title  : " + driver.getTitle());
-
-        List<WebElement> popup = driver.findElements(
-                By.xpath("//p[contains(text(),'Your trial has expired')]"));
-
-        System.out.println("Popup count : " + popup.size());
-
-        ScreenshotUtil.captureScreenshot("BeforeTutorialClick");
-
-        if (popup.size() > 0) {
-            driver.findElement(
-                    By.xpath("//button[normalize-space()='Close']")).click();
-        }
+        closeTrialPopupIfPresent();
 
         waitUtil.waitForClickable(tutorials).click();
     }
+
+    /**
+     * Close Trial Popup if displayed.
+     */
+    private void closeTrialPopupIfPresent() {
+
+        try {
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//button[normalize-space()='Close']")));
+
+            List<WebElement> closeButtons = driver.findElements(
+                    By.xpath("//button[normalize-space()='Close']"));
+
+            if (closeButtons.size() > 0) {
+
+                closeButtons.get(0).click();
+            }
+
+        } catch (TimeoutException e) {
+
+            // Popup not displayed. Continue execution.
+        }
+    }
+
     /**
      * Logout from W3Schools.
      */
