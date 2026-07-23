@@ -35,25 +35,26 @@ public final class DriverFactory {
 
         switch (browser) {
 
-            case CHROME -> {
+        case CHROME -> {
 
-                WebDriverManager.chromedriver().setup();
+            WebDriverManager.chromedriver().setup();
 
-                ChromeOptions options = new ChromeOptions();
+            ChromeOptions options = new ChromeOptions();
 
-                if (headless) {
+            if (headless) {
 
-                    System.out.println("Launching Chrome in HEADLESS mode");
+                System.out.println("Launching Chrome in HEADLESS mode");
 
-                    options.addArguments("--headless=new");
+                options.addArguments("--headless=new");
+                options.addArguments("--window-size=1920,1080");
 
-                } else {
+            } else {
 
-                    System.out.println("Launching Chrome in HEADED mode");
-                }
-
-                DRIVER.set(new ChromeDriver(options));
+                System.out.println("Launching Chrome in HEADED mode");
             }
+
+            DRIVER.set(new ChromeDriver(options));
+        }
 
             case EDGE -> {
 
