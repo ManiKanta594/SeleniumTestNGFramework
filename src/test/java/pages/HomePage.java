@@ -29,6 +29,7 @@ public class HomePage extends BasePage {
      */
     public void clickTutorials() {
 
+        System.out.println("========== HOME PAGE DEBUG ==========");
         System.out.println("Current URL : " + driver.getCurrentUrl());
         System.out.println("Page Title  : " + driver.getTitle());
 
@@ -37,17 +38,15 @@ public class HomePage extends BasePage {
 
         System.out.println("Popup count : " + popup.size());
 
-        if (popup.size() > 0) {
+        ScreenshotUtil.captureScreenshot("BeforeTutorialClick");
 
+        if (popup.size() > 0) {
             driver.findElement(
-                    By.xpath("//button[normalize-space()='Close']"))
-                    .click();
+                    By.xpath("//button[normalize-space()='Close']")).click();
         }
 
-        		ScreenshotUtil.captureScreenshot("BeforeTutorialClick");
-                waitUtil.waitForClickable(tutorials).click();
+        waitUtil.waitForClickable(tutorials).click();
     }
-
     /**
      * Logout from W3Schools.
      */
