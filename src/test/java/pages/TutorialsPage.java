@@ -16,17 +16,27 @@ public class TutorialsPage extends BasePage {
     private List<WebElement> tutorialCards;
 
     /**
-     * Select a tutorial card by name.
+     * Select tutorial by name.
      */
     public void selectTutorial(String tutorialName) {
 
         waitUtil.waitForPageLoad();
 
+        System.out.println("====================================");
+        System.out.println("Requested Tutorial : " + tutorialName);
+        System.out.println("Total Tutorial Cards : " + tutorialCards.size());
+        System.out.println("====================================");
+
         for (WebElement tutorial : tutorialCards) {
 
-            if (tutorial.getText().trim().equalsIgnoreCase(tutorialName)) {
+            String text = tutorial.getText().trim();
 
-                jsUtil.scrollIntoView(tutorial);
+            System.out.println("Tutorial Found : [" + text + "]");
+
+            if (text.equalsIgnoreCase(tutorialName)
+                    || text.toLowerCase().contains(tutorialName.toLowerCase())) {
+
+                System.out.println("Matching Tutorial : " + text);
 
                 waitUtil.waitForClickable(tutorial).click();
 
