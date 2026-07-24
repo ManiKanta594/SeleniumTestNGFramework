@@ -51,16 +51,27 @@ pipeline {
 
     post {
 
-        always {
-            echo 'Pipeline execution completed.'
-        }
+    always {
 
-        success {
-            echo 'Build Successful.'
-        }
+        publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'target/Reports/Latest',
+            reportFiles: 'AutomationReport.html',
+            reportName: 'Extent Automation Report',
+            reportTitles: 'Extent Report'
+        ])
 
-        failure {
-            echo 'Build Failed.'
-        }
+        echo 'Pipeline execution completed.'
     }
+
+    success {
+        echo 'Build Successful.'
+    }
+
+    failure {
+        echo 'Build Failed.'
+    }
+}
 }
