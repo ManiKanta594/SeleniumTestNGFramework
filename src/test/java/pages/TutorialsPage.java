@@ -12,14 +12,21 @@ public class TutorialsPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(xpath = "//h4[@class='tutnav-card-title']")
+    @FindBy(xpath = "//h4[contains(@class,'tutnav-card-title')]")
     private List<WebElement> tutorialCards;
 
+    /**
+     * Select a tutorial card by name.
+     */
     public void selectTutorial(String tutorialName) {
+
+        waitUtil.waitForPageLoad();
 
         for (WebElement tutorial : tutorialCards) {
 
             if (tutorial.getText().trim().equalsIgnoreCase(tutorialName)) {
+
+                jsUtil.scrollIntoView(tutorial);
 
                 waitUtil.waitForClickable(tutorial).click();
 

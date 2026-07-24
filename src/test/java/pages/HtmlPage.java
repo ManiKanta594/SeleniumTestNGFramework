@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import utilities.ScreenshotUtil;
+
 public class HtmlPage extends BasePage {
 
     public HtmlPage(WebDriver driver) {
@@ -27,28 +29,45 @@ public class HtmlPage extends BasePage {
 
     @FindBy(css = "a.logout")
     private WebElement logout;
-    
-    
+
     public void clickHTMLIntroduction() {
 
-        waitUtil.waitForClickable(htmlIntroduction).click();
+    	ScreenshotUtil.captureScreenshot("HtmlPage_Headless");
+    	System.out.println(driver.manage().window().getSize());
+        waitUtil.waitForVisibility(htmlIntroduction);
+
+        jsUtil.scrollIntoView(htmlIntroduction);
+
+        jsUtil.clickElement(htmlIntroduction);
     }
 
     public void clickHTMLHome() {
 
-        waitUtil.waitForClickable(htmlHome).click();
+        waitUtil.waitForVisibility(htmlHome);
+
+        jsUtil.scrollIntoView(htmlHome);
+
+        jsUtil.clickElement(htmlHome);
     }
 
     public void clickSQLTutorial() {
 
-        waitUtil.waitForClickable(sqlTutorial).click();
+        waitUtil.waitForVisibility(sqlTutorial);
+
+        jsUtil.scrollIntoView(sqlTutorial);
+
+        jsUtil.clickElement(sqlTutorial);
     }
 
     public void clickCSSTutorial() {
 
-        waitUtil.waitForClickable(cssTutorial).click();
+        waitUtil.waitForVisibility(cssTutorial);
+
+        jsUtil.scrollIntoView(cssTutorial);
+
+        jsUtil.clickElement(cssTutorial);
     }
-    
+
     public void logout() {
 
         waitUtil.waitForClickable(profileIcon).click();

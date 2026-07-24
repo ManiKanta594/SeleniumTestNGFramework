@@ -11,13 +11,15 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import utilities.ScreenshotUtil;
+
 public class HomePage extends BasePage {
 
     public HomePage(WebDriver driver) {
         super(driver);
     }
 
-    @FindBy(xpath = "//a[@data-tnb-nav-id='tutorials']")
+    @FindBy(id = "navbtn_tutorials")
     private WebElement tutorials;
 
     @FindBy(xpath = "//button[contains(@class,'profile')]")
@@ -32,8 +34,13 @@ public class HomePage extends BasePage {
     public void clickTutorials() {
 
         closeTrialPopupIfPresent();
+        ScreenshotUtil.captureScreenshot("BeforeTutorialClick");
+        waitUtil.waitForVisibility(tutorials);
 
-        waitUtil.waitForClickable(tutorials).click();
+        jsUtil.scrollIntoView(tutorials);
+
+        jsUtil.clickElement(tutorials);
+        //waitUtil.waitForClickable(tutorials).click();
     }
 
     /**
@@ -67,7 +74,11 @@ public class HomePage extends BasePage {
      */
     public void logout() {
 
-        waitUtil.waitForClickable(profileIcon).click();
+        waitUtil.waitForVisibility(profileIcon);
+
+        jsUtil.scrollIntoView(profileIcon);
+
+        jsUtil.clickElement(profileIcon);
 
         waitUtil.waitForVisibility(logout);
 
