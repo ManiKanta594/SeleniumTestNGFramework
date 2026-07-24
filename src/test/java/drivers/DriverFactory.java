@@ -48,7 +48,6 @@ public final class DriverFactory {
 
                     options.addArguments("--headless=new");
                     options.addArguments("--window-size=1920,1080");
-                    options.addArguments("--start-maximized");
 
                 } else {
 
@@ -108,8 +107,17 @@ public final class DriverFactory {
                         "Unsupported Browser : " + browser);
         }
 
-        // Force desktop size for all browsers
-        getDriver().manage().window().setSize(new Dimension(1920, 1080));
+        if (headless) {
+
+            // Force desktop resolution in headless mode
+            getDriver().manage().window()
+                    .setSize(new Dimension(1920, 1080));
+
+        } else {
+
+            // Normal maximize in headed mode
+            getDriver().manage().window().maximize();
+        }
 
         System.out.println("Browser Size : "
                 + getDriver().manage().window().getSize());
@@ -126,7 +134,6 @@ public final class DriverFactory {
         if (DRIVER.get() != null) {
 
             DRIVER.get().quit();
-
             DRIVER.remove();
         }
     }

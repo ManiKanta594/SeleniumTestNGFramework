@@ -34,13 +34,8 @@ public class HomePage extends BasePage {
     public void clickTutorials() {
 
         closeTrialPopupIfPresent();
-        ScreenshotUtil.captureScreenshot("BeforeTutorialClick");
-        waitUtil.waitForVisibility(tutorials);
 
-        jsUtil.scrollIntoView(tutorials);
-
-        jsUtil.clickElement(tutorials);
-        //waitUtil.waitForClickable(tutorials).click();
+        waitUtil.waitForClickable(tutorials).click();
     }
 
     /**
