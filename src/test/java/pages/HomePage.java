@@ -67,6 +67,7 @@ public class HomePage extends BasePage {
     /**
      * Logout from W3Schools.
      */
+    //logout
     public void logout() {
 
         waitUtil.waitForVisibility(profileIcon);
