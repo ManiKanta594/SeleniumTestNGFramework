@@ -51,7 +51,6 @@ pipeline {
                 """
             }
         }
-
     }
 
     post {
@@ -74,12 +73,9 @@ pipeline {
                 results: [[path: 'target/allure-results']]
             )
 
+            // Archive only Extent Report
             archiveArtifacts(
-                artifacts: '''
-                    target/Reports/**/*
-                    target/allure-report/**/*
-                    target/allure-results/**/*
-                ''',
+                artifacts: 'target/Reports/**/*',
                 fingerprint: true
             )
 
@@ -91,20 +87,20 @@ pipeline {
             emailext(
                 subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
-                    <h2>Build Successful</h2>
+                <h2>Build Successful</h2>
 
-                    <p><b>Project:</b> ${env.JOB_NAME}</p>
-                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                    <p><b>Build URL:</b> ${env.BUILD_URL}</p>
+                <p><b>Project:</b> ${env.JOB_NAME}</p>
+                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                <p><b>Build URL:</b> ${env.BUILD_URL}</p>
 
-                    <p><b>Reports Available:</b></p>
+                <p><b>Reports Available:</b></p>
 
-                    <ul>
-                        <li>Extent Report</li>
-                        <li>Allure Report</li>
-                    </ul>
+                <ul>
+                    <li>Extent Report</li>
+                    <li>Allure Report</li>
+                </ul>
 
-                    <p>Please check Jenkins for the reports.</p>
+                <p>Please check Jenkins for the reports.</p>
                 """,
                 mimeType: 'text/html',
                 to: 'mandalamanikanta594@gmail.com'
@@ -118,13 +114,13 @@ pipeline {
             emailext(
                 subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
-                    <h2>Build Failed</h2>
+                <h2>Build Failed</h2>
 
-                    <p><b>Project:</b> ${env.JOB_NAME}</p>
-                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                    <p><b>Build URL:</b> ${env.BUILD_URL}</p>
+                <p><b>Project:</b> ${env.JOB_NAME}</p>
+                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                <p><b>Build URL:</b> ${env.BUILD_URL}</p>
 
-                    <p>Please check the Jenkins Console Output and Allure/Extent Reports for failure details.</p>
+                <p>Please check Jenkins Console Output, Extent Report and Allure Report for failure details.</p>
                 """,
                 mimeType: 'text/html',
                 to: 'mandalamanikanta594@gmail.com'
