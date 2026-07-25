@@ -84,30 +84,47 @@ pipeline {
 
         success {
 
-            emailext(
-                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                <h2>Build Successful</h2>
+    emailext(
+        subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+        body: """
+            <h2>Build Successful</h2>
 
-                <p><b>Project:</b> ${env.JOB_NAME}</p>
-                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                <p><b>Build URL:</b> ${env.BUILD_URL}</p>
+            <p><b>Project:</b> ${env.JOB_NAME}</p>
+            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
 
-                <p><b>Reports Available:</b></p>
+            <p><b>Build URL:</b><br>
+            <a href="${env.BUILD_URL}">
+            ${env.BUILD_URL}
+            </a></p>
 
-                <ul>
-                    <li>Extent Report</li>
-                    <li>Allure Report</li>
-                </ul>
+            <hr>
 
-                <p>Please check Jenkins for the reports.</p>
-                """,
-                mimeType: 'text/html',
-                to: 'mandalamanikanta594@gmail.com'
-            )
+            <h3>Reports</h3>
 
-            echo 'Build Successful.'
-        }
+            <p>
+            <a href="${env.BUILD_URL}Extent_20Automation_20Report/">
+            📊 Open Extent Report
+            </a>
+            </p>
+
+            <p>
+            <a href="${env.BUILD_URL}allure/">
+            📈 Open Allure Report
+            </a>
+            </p>
+
+            <hr>
+
+            <p>Regards,<br>
+            Jenkins CI/CD Pipeline</p>
+
+        """,
+        mimeType: 'text/html',
+        to: 'mandalamanikanta594@gmail.com'
+    )
+
+    echo 'Build Successful.'
+}
 
         failure {
 
