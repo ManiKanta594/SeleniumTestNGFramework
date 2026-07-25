@@ -48,35 +48,67 @@ pipeline {
             }
         }
     }
-
     post {
 
     always {
 
-    publishHTML([
-        allowMissing: false,
-        alwaysLinkToLastBuild: true,
-        keepAll: true,
-        reportDir: 'target/Reports/Latest',
-        reportFiles: 'AutomationReport.html',
-        reportName: 'Extent Automation Report',
-        reportTitles: 'Extent Report'
-    ])
+        publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'target/Reports/Latest',
+            reportFiles: 'AutomationReport.html',
+            reportName: 'Extent Automation Report',
+            reportTitles: 'Extent Report'
+        ])
 
-    archiveArtifacts(
-        artifacts: 'target/Reports/**/*',
-        fingerprint: true
-    )
+        archiveArtifacts(
+            artifacts: 'target/Reports/**/*',
+            fingerprint: true
+        )
 
-    echo 'Pipeline execution completed.'
-}
+        echo 'Pipeline execution completed.'
+    }
 
     success {
+
+        emailext(
+            subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """
+                <h2>Build Successful</h2>
+
+                <p><b>Project:</b> ${env.JOB_NAME}</p>
+                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                <p><b>Build URL:</b> ${env.BUILD_URL}</p>
+
+                <p>Please check the Extent Report in Jenkins.</p>
+            """,
+            mimeType: 'text/html',
+            to: 'mandalamanikanta594@gmail.com'
+        )
+
         echo 'Build Successful.'
     }
 
     failure {
+
+        emailext(
+            subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """
+                <h2>Build Failed</h2>
+
+                <p><b>Project:</b> ${env.JOB_NAME}</p>
+                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                <p><b>Build URL:</b> ${env.BUILD_URL}</p>
+
+                <p>Please check Jenkins Console Output.</p>
+            """,
+            mimeType: 'text/html',
+            to: 'mandalamanikanta594@gmail.com'
+        )
+
         echo 'Build Failed.'
     }
 }
-}
+
+    }
