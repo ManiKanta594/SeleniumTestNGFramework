@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    tools {
+        allure 'Allure'
+    }
+
     parameters {
 
         choice(
@@ -47,68 +51,86 @@ pipeline {
                 """
             }
         }
+
     }
+
     post {
 
-    always {
+        always {
 
-        publishHTML([
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'target/Reports/Latest',
-            reportFiles: 'AutomationReport.html',
-            reportName: 'Extent Automation Report',
-            reportTitles: 'Extent Report'
-        ])
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'target/Reports/Latest',
+                reportFiles: 'AutomationReport.html',
+                reportName: 'Extent Automation Report',
+                reportTitles: 'Extent Report'
+            ])
 
-        archiveArtifacts(
-            artifacts: 'target/Reports/**/*',
-            fingerprint: true
-        )
+            allure(
+                includeProperties: false,
+                jdk: '',
+                results: [[path: 'target/allure-results']]
+            )
 
-        echo 'Pipeline execution completed.'
-    }
+            archiveArtifacts(
+                artifacts: '''
+                    target/Reports/**/*
+                    target/allure-report/**/*
+                    target/allure-results/**/*
+                ''',
+                fingerprint: true
+            )
 
-    success {
+            echo 'Pipeline execution completed.'
+        }
 
-        emailext(
-            subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            body: """
-                <h2>Build Successful</h2>
+        success {
 
-                <p><b>Project:</b> ${env.JOB_NAME}</p>
-                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                <p><b>Build URL:</b> ${env.BUILD_URL}</p>
+            emailext(
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    <h2>Build Successful</h2>
 
-                <p>Please check the Extent Report in Jenkins.</p>
-            """,
-            mimeType: 'text/html',
-            to: 'mandalamanikanta594@gmail.com'
-        )
+                    <p><b>Project:</b> ${env.JOB_NAME}</p>
+                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                    <p><b>Build URL:</b> ${env.BUILD_URL}</p>
 
-        echo 'Build Successful.'
-    }
+                    <p><b>Reports Available:</b></p>
 
-    failure {
+                    <ul>
+                        <li>Extent Report</li>
+                        <li>Allure Report</li>
+                    </ul>
 
-        emailext(
-            subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            body: """
-                <h2>Build Failed</h2>
+                    <p>Please check Jenkins for the reports.</p>
+                """,
+                mimeType: 'text/html',
+                to: 'mandalamanikanta594@gmail.com'
+            )
 
-                <p><b>Project:</b> ${env.JOB_NAME}</p>
-                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                <p><b>Build URL:</b> ${env.BUILD_URL}</p>
+            echo 'Build Successful.'
+        }
 
-                <p>Please check Jenkins Console Output.</p>
-            """,
-            mimeType: 'text/html',
-            to: 'mandalamanikanta594@gmail.com'
-        )
+        failure {
 
-        echo 'Build Failed.'
+            emailext(
+                subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    <h2>Build Failed</h2>
+
+                    <p><b>Project:</b> ${env.JOB_NAME}</p>
+                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                    <p><b>Build URL:</b> ${env.BUILD_URL}</p>
+
+                    <p>Please check the Jenkins Console Output and Allure/Extent Reports for failure details.</p>
+                """,
+                mimeType: 'text/html',
+                to: 'mandalamanikanta594@gmail.com'
+            )
+
+            echo 'Build Failed.'
+        }
     }
 }
-
-    }
