@@ -53,18 +53,23 @@ pipeline {
 
     always {
 
-        publishHTML([
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'target/Reports/Latest',
-            reportFiles: 'AutomationReport.html',
-            reportName: 'Extent Automation Report',
-            reportTitles: 'Extent Report'
-        ])
+    publishHTML([
+        allowMissing: false,
+        alwaysLinkToLastBuild: true,
+        keepAll: true,
+        reportDir: 'target/Reports/Latest',
+        reportFiles: 'AutomationReport.html',
+        reportName: 'Extent Automation Report',
+        reportTitles: 'Extent Report'
+    ])
 
-        echo 'Pipeline execution completed.'
-    }
+    archiveArtifacts(
+        artifacts: 'target/Reports/**/*',
+        fingerprint: true
+    )
+
+    echo 'Pipeline execution completed.'
+}
 
     success {
         echo 'Build Successful.'
