@@ -9,7 +9,6 @@ import com.aventstack.extentreports.Status;
 
 import reports.ExtentManager;
 import reports.ExtentTestManager;
-import utilities.AllureUtil;
 import utilities.ScreenshotUtil;
 
 public class TestListener implements ITestListener {
@@ -23,26 +22,19 @@ public class TestListener implements ITestListener {
         ExtentTestManager.setTest(
                 ExtentManager.getInstance().createTest(
                         result.getTestClass().getRealClass().getSimpleName()
-                        + " - "
-                        + result.getMethod().getMethodName()));
+                                + " - "
+                                + result.getMethod().getMethodName()));
 
         LOGGER.info("=================================================");
-        LOGGER.info("Test Started : {}",
-                result.getMethod().getMethodName());
-        LOGGER.info("Test Class   : {}",
-                result.getTestClass().getRealClass().getSimpleName());
-        LOGGER.info("Thread ID    : {}",
-                Thread.currentThread().getId());
+        LOGGER.info("Test Started : {}", result.getMethod().getMethodName());
         LOGGER.info("=================================================");
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
 
-        ExtentTestManager.getTest().log(Status.PASS, "Test Passed");
-
-        LOGGER.info("Test Passed : {}",
-                result.getMethod().getMethodName());
+        ExtentTestManager.getTest()
+                .log(Status.PASS, "Test Passed");
     }
 
     @Override
@@ -51,36 +43,23 @@ public class TestListener implements ITestListener {
         ExtentTestManager.getTest()
                 .log(Status.FAIL, result.getThrowable());
 
-        LOGGER.error("Test Failed : {}",
-                result.getMethod().getMethodName(),
-                result.getThrowable());
-
         try {
 
-            String screenshot =
+            String screenshotPath =
                     ScreenshotUtil.captureScreenshot(
                             result.getMethod().getMethodName());
 
-            // Attach screenshot to Extent Report
             ExtentTestManager.getTest()
-                    .addScreenCaptureFromPath(screenshot);
+                    .addScreenCaptureFromPath(screenshotPath);
 
-            // Attach screenshot to Allure Report
-            AllureUtil.attachScreenshot();
-
-            // Attach exception to Allure
-            AllureUtil.attachText(
-                    "Exception",
-                    result.getThrowable().toString());
-
-            LOGGER.info("Screenshot attached to Extent and Allure Report.");
+            LOGGER.info("Screenshot attached to Extent Report.");
 
         } catch (Exception e) {
 
-            LOGGER.error("Failed to capture screenshot.", e);
+            LOGGER.error("Unable to capture screenshot.", e);
 
             ExtentTestManager.getTest()
-                    .warning(e.getMessage());
+                    .warning("Unable to attach screenshot.");
         }
     }
 
@@ -89,8 +68,5 @@ public class TestListener implements ITestListener {
 
         ExtentTestManager.getTest()
                 .log(Status.SKIP, "Test Skipped");
-
-        LOGGER.warn("Test Skipped : {}",
-                result.getMethod().getMethodName());
     }
 }
