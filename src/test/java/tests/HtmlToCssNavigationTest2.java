@@ -54,12 +54,14 @@ public class HtmlToCssNavigationTest2 extends BaseTest {
         cssPage.clickCSSHome();
 
         ReportManager.logStep("User logs out successfully");
+        
+        org.testng.Assert.fail("Intentional failure for screenshot testing");
 
         homePage.logout();
 
         ReportManager.logPass(
                 "HTML -> CSS Navigation completed successfully.");
         
-        org.testng.Assert.fail("Intentional failure for screenshot testing");
+       
     }
 }
