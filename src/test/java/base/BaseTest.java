@@ -2,7 +2,6 @@ package base;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -11,15 +10,16 @@ import org.testng.annotations.Parameters;
 
 import drivers.DriverFactory;
 import enums.BrowserType;
+import listeners.AllureListener;
 import listeners.SuiteListener;
 import listeners.TestListener;
 import managers.PageObjectManager;
-import utilities.AllureUtil;
 import utilities.ConfigReader;
 
 @Listeners({
         TestListener.class,
-        SuiteListener.class
+        SuiteListener.class,
+        AllureListener.class
 })
 public class BaseTest {
 
@@ -64,28 +64,7 @@ public class BaseTest {
     }
 
     @AfterMethod(alwaysRun = true)
-    public void tearDown(ITestResult result) {
-
-        try {
-
-            if (result.getStatus() == ITestResult.FAILURE) {
-
-                LOGGER.info("Attaching Screenshot to Allure Report");
-
-                AllureUtil.attachScreenshot();
-
-                if (result.getThrowable() != null) {
-
-                    AllureUtil.attachText(
-                            "Exception",
-                            result.getThrowable().toString());
-                }
-            }
-
-        } catch (Exception e) {
-
-            LOGGER.error("Unable to attach screenshot to Allure.", e);
-        }
+    public void tearDown() {
 
         LOGGER.info("Closing Driver : {}", DriverFactory.getDriver());
 

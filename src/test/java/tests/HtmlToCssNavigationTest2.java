@@ -1,6 +1,5 @@
 package tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
@@ -8,7 +7,6 @@ import pages.CssPage;
 import pages.HomePage;
 import pages.HtmlPage;
 import reports.ReportManager;
-import utilities.AllureUtil;
 
 public class HtmlToCssNavigationTest2 extends BaseTest {
 
@@ -55,15 +53,9 @@ public class HtmlToCssNavigationTest2 extends BaseTest {
         cssPage.clickCSSIntroduction();
         cssPage.clickCSSHome();
 
-        // Attach directly to Allure
-        AllureUtil.attachScreenshot();
-        AllureUtil.attachText("Message", "Before failure");
+        // Intentional failure for testing automatic Allure screenshot capture
+        org.testng.Assert.fail("Intentional failure for automatic Allure screenshot testing");
 
-        // Intentional failure
-        Assert.fail("Intentional failure for screenshot testing");
-
-        // This code will never execute because Assert.fail() throws an exception.
-        // Keep it commented or remove it while testing.
         // homePage.logout();
         // ReportManager.logPass("HTML -> CSS Navigation completed successfully.");
     }
