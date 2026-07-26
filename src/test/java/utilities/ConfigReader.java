@@ -1,13 +1,18 @@
 package utilities;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
-import constants.FrameworkConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import enums.BrowserType;
 
 public final class ConfigReader {
+
+    private static final Logger LOGGER =
+            LogManager.getLogger(ConfigReader.class);
 
     private static volatile ConfigReader instance;
 
@@ -19,8 +24,12 @@ public final class ConfigReader {
         frameworkProperties = new Properties();
         environmentProperties = new Properties();
 
+        LOGGER.info("Initializing ConfigReader...");
+
         loadFrameworkProperties();
         loadEnvironmentProperties();
+
+        LOGGER.info("Configuration loaded successfully.");
     }
 
     public static ConfigReader getInstance() {
@@ -44,12 +53,27 @@ public final class ConfigReader {
 
     private void loadFrameworkProperties() {
 
-        try (FileInputStream file = new FileInputStream(
-                FrameworkConstants.CONFIG_PATH + "framework.properties")) {
+        LOGGER.info("Loading framework.properties...");
 
-            frameworkProperties.load(file);
+        try (InputStream inputStream = ConfigReader.class
+                .getClassLoader()
+                .getResourceAsStream("config/framework.properties")) {
+
+            if (inputStream == null) {
+
+                LOGGER.error("framework.properties not found in classpath.");
+
+                throw new RuntimeException(
+                        "framework.properties not found in classpath.");
+            }
+
+            frameworkProperties.load(inputStream);
+
+            LOGGER.info("framework.properties loaded successfully.");
 
         } catch (IOException e) {
+
+            LOGGER.error("Unable to load framework.properties", e);
 
             throw new RuntimeException(
                     "Unable to load framework.properties", e);
@@ -62,14 +86,29 @@ public final class ConfigReader {
 
     private void loadEnvironmentProperties() {
 
-        String environment = getFrameworkProperty("environment").toLowerCase();
+        String environment = getEnvironment().toLowerCase();
 
-        try (FileInputStream file = new FileInputStream(
-                FrameworkConstants.CONFIG_PATH + environment + ".properties")) {
+        LOGGER.info("Loading {}.properties...", environment);
 
-            environmentProperties.load(file);
+        try (InputStream inputStream = ConfigReader.class
+                .getClassLoader()
+                .getResourceAsStream("config/" + environment + ".properties")) {
+
+            if (inputStream == null) {
+
+                LOGGER.error("{}.properties not found in classpath.", environment);
+
+                throw new RuntimeException(
+                        environment + ".properties not found in classpath.");
+            }
+
+            environmentProperties.load(inputStream);
+
+            LOGGER.info("{}.properties loaded successfully.", environment);
 
         } catch (IOException e) {
+
+            LOGGER.error("Unable to load {}.properties", environment, e);
 
             throw new RuntimeException(
                     "Unable to load " + environment + ".properties", e);
@@ -94,6 +133,25 @@ public final class ConfigReader {
                 .trim();
     }
 
+    /**
+     * Priority:
+     * 1. System Property (-D)
+     * 2. framework.properties
+     */
+    private String getProperty(String key) {
+
+        String systemValue = System.getProperty(key);
+
+        if (systemValue != null && !systemValue.isBlank()) {
+
+            LOGGER.debug("Reading '{}' from System Property.", key);
+
+            return systemValue.trim();
+        }
+
+        return getFrameworkProperty(key);
+    }
+
     // ==========================
     // Framework Configuration
     // ==========================
@@ -101,39 +159,52 @@ public final class ConfigReader {
     public BrowserType getBrowser() {
 
         return BrowserType.valueOf(
-                getFrameworkProperty("browser").toUpperCase());
+                getProperty("browser").toUpperCase());
     }
 
     public boolean isHeadless() {
 
-        // First check if Jenkins/Maven passed -Dheadless
-        String headless = System.getProperty("headless");
-
-        if (headless != null) {
-            return Boolean.parseBoolean(headless);
-        }
-
-        // Otherwise use framework.properties
         return Boolean.parseBoolean(
-                frameworkProperties.getProperty("headless"));
+                getProperty("headless"));
+    }
+
+    public String getExecutionMode() {
+
+        return getProperty("execution.mode");
+    }
+
+    public boolean isGridExecution() {
+
+        return getExecutionMode()
+                .equalsIgnoreCase("GRID");
+    }
+
+    public String getGridUrl() {
+
+        return getProperty("grid.url");
+    }
+
+    public String getEnvironment() {
+
+        return getProperty("environment");
     }
 
     public int getImplicitWait() {
 
         return Integer.parseInt(
-                getFrameworkProperty("implicit.wait"));
+                getProperty("implicit.wait"));
     }
 
     public int getExplicitWait() {
 
         return Integer.parseInt(
-                getFrameworkProperty("explicit.wait"));
+                getProperty("explicit.wait"));
     }
 
     public int getPageLoadTimeout() {
 
         return Integer.parseInt(
-                getFrameworkProperty("page.load.timeout"));
+                getProperty("page.load.timeout"));
     }
 
     // ==========================
@@ -154,5 +225,4 @@ public final class ConfigReader {
 
         return getEnvironmentProperty("password");
     }
-
 }

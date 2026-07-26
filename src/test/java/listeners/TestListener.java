@@ -1,5 +1,7 @@
 package listeners;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
@@ -11,6 +13,9 @@ import utilities.ScreenshotUtil;
 
 public class TestListener implements ITestListener {
 
+    private static final Logger LOGGER =
+            LogManager.getLogger(TestListener.class);
+
     @Override
     public void onTestStart(ITestResult result) {
 
@@ -20,10 +25,14 @@ public class TestListener implements ITestListener {
                         + " - "
                         + result.getMethod().getMethodName()));
 
-        System.out.println("Started : "
-                + result.getTestClass().getRealClass().getSimpleName()
-                + " | Thread : "
-                + Thread.currentThread().getId());
+        LOGGER.info("=================================================");
+        LOGGER.info("Test Started : {}",
+                result.getMethod().getMethodName());
+        LOGGER.info("Test Class   : {}",
+                result.getTestClass().getRealClass().getSimpleName());
+        LOGGER.info("Thread ID    : {}",
+                Thread.currentThread().getId());
+        LOGGER.info("=================================================");
     }
 
     @Override
@@ -31,8 +40,8 @@ public class TestListener implements ITestListener {
 
         ExtentTestManager.getTest().log(Status.PASS, "Test Passed");
 
-        System.out.println("Passed : "
-                + result.getMethod().getMethodName());
+        LOGGER.info("Test Passed : {}",
+                result.getMethod().getMethodName());
     }
 
     @Override
@@ -40,6 +49,10 @@ public class TestListener implements ITestListener {
 
         ExtentTestManager.getTest()
                 .log(Status.FAIL, result.getThrowable());
+
+        LOGGER.error("Test Failed : {}",
+                result.getMethod().getMethodName(),
+                result.getThrowable());
 
         try {
 
@@ -50,7 +63,11 @@ public class TestListener implements ITestListener {
             ExtentTestManager.getTest()
                     .addScreenCaptureFromPath(screenshot);
 
+            LOGGER.info("Screenshot attached to Extent Report.");
+
         } catch (Exception e) {
+
+            LOGGER.error("Failed to capture screenshot.", e);
 
             ExtentTestManager.getTest()
                     .warning(e.getMessage());
@@ -62,5 +79,8 @@ public class TestListener implements ITestListener {
 
         ExtentTestManager.getTest()
                 .log(Status.SKIP, "Test Skipped");
+
+        LOGGER.warn("Test Skipped : {}",
+                result.getMethod().getMethodName());
     }
 }

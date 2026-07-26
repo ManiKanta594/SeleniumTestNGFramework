@@ -9,9 +9,6 @@ public final class FrameworkConstants {
     public static final String PROJECT_PATH =
             System.getProperty("user.dir") + "\\";
 
-    public static final String CONFIG_PATH =
-            PROJECT_PATH + "src\\test\\resources\\config\\";
-
     public static final String TESTDATA_PATH =
             PROJECT_PATH + "src\\test\\resources\\testdata\\";
 

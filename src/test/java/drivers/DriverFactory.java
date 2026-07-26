@@ -1,5 +1,10 @@
 package drivers;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,6 +13,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import enums.BrowserType;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -19,6 +25,9 @@ public final class DriverFactory {
         throw new IllegalStateException("Utility class");
     }
 
+    private static final Logger LOGGER =
+            LogManager.getLogger(DriverFactory.class);
+
     private static final ThreadLocal<WebDriver> DRIVER =
             new ThreadLocal<>();
 
@@ -28,101 +37,127 @@ public final class DriverFactory {
     public static void initializeDriver(BrowserType browser) {
 
         boolean headless = CONFIG.isHeadless();
+        boolean gridExecution = CONFIG.isGridExecution();
 
-        System.out.println("======================================");
-        System.out.println("Browser Parameter  : " + browser);
-        System.out.println("Headless Parameter : " + headless);
-        System.out.println("======================================");
+        LOGGER.info("======================================");
+        LOGGER.info("Execution Mode : {}", gridExecution ? "GRID" : "LOCAL");
+        LOGGER.info("Browser        : {}", browser);
+        LOGGER.info("Headless       : {}", headless);
+        LOGGER.info("======================================");
 
-        switch (browser) {
+        try {
 
-            case CHROME -> {
+            switch (browser) {
 
-                WebDriverManager.chromedriver().setup();
+                case CHROME -> {
 
-                ChromeOptions options = new ChromeOptions();
+                    ChromeOptions options = new ChromeOptions();
 
-                if (headless) {
+                    if (headless) {
+                        options.addArguments("--headless=new");
+                        options.addArguments("--window-size=1920,1080");
+                    }
 
-                    System.out.println("Launching Chrome in HEADLESS mode");
+                    if (gridExecution) {
 
-                    options.addArguments("--headless=new");
-                    options.addArguments("--window-size=1920,1080");
+                        LOGGER.info("Launching Chrome on Selenium Grid");
 
-                } else {
+                        DRIVER.set(new RemoteWebDriver(
+                                URI.create(CONFIG.getGridUrl()).toURL(),
+                                options));
 
-                    System.out.println("Launching Chrome in HEADED mode");
+                    } else {
+
+                        LOGGER.info("Launching Chrome Locally");
+
+                        WebDriverManager.chromedriver().setup();
+                        DRIVER.set(new ChromeDriver(options));
+                    }
                 }
 
-                DRIVER.set(new ChromeDriver(options));
-            }
+                case EDGE -> {
 
-            case EDGE -> {
+                    EdgeOptions options = new EdgeOptions();
 
-                System.setProperty(
-                        "webdriver.edge.driver",
-                        "C:\\Users\\ASUS\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+                    if (headless) {
+                        options.addArguments("--headless=new");
+                        options.addArguments("--window-size=1920,1080");
+                    }
 
-                EdgeOptions options = new EdgeOptions();
+                    if (gridExecution) {
 
-                if (headless) {
+                        LOGGER.info("Launching Edge on Selenium Grid");
 
-                    System.out.println("Launching Edge in HEADLESS mode");
+                        DRIVER.set(new RemoteWebDriver(
+                                URI.create(CONFIG.getGridUrl()).toURL(),
+                                options));
 
-                    options.addArguments("--headless=new");
-                    options.addArguments("--window-size=1920,1080");
+                    } else {
 
-                } else {
+                        LOGGER.info("Launching Edge Locally");
 
-                    System.out.println("Launching Edge in HEADED mode");
+                        WebDriverManager.edgedriver().setup();
+                        DRIVER.set(new EdgeDriver(options));
+                    }
                 }
 
-                DRIVER.set(new EdgeDriver(options));
-            }
+                case FIREFOX -> {
 
-            case FIREFOX -> {
+                    FirefoxOptions options = new FirefoxOptions();
 
-                WebDriverManager.firefoxdriver().setup();
+                    if (headless) {
+                        options.addArguments("-headless");
+                        options.addArguments("--width=1920");
+                        options.addArguments("--height=1080");
+                    }
 
-                FirefoxOptions options = new FirefoxOptions();
+                    if (gridExecution) {
 
-                if (headless) {
+                        LOGGER.info("Launching Firefox on Selenium Grid");
 
-                    System.out.println("Launching Firefox in HEADLESS mode");
+                        DRIVER.set(new RemoteWebDriver(
+                                URI.create(CONFIG.getGridUrl()).toURL(),
+                                options));
 
-                    options.addArguments("-headless");
-                    options.addArguments("--width=1920");
-                    options.addArguments("--height=1080");
+                    } else {
 
-                } else {
+                        LOGGER.info("Launching Firefox Locally");
 
-                    System.out.println("Launching Firefox in HEADED mode");
+                        WebDriverManager.firefoxdriver().setup();
+                        DRIVER.set(new FirefoxDriver(options));
+                    }
                 }
 
-                DRIVER.set(new FirefoxDriver(options));
+                default ->
+                        throw new IllegalArgumentException(
+                                "Unsupported Browser : " + browser);
             }
 
-            default ->
-                throw new IllegalArgumentException(
-                        "Unsupported Browser : " + browser);
+        } catch (MalformedURLException e) {
+
+            LOGGER.error("Invalid Selenium Grid URL : {}", CONFIG.getGridUrl(), e);
+
+            throw new RuntimeException(
+                    "Invalid Selenium Grid URL : "
+                            + CONFIG.getGridUrl(), e);
         }
 
         if (headless) {
 
-            // Force desktop resolution in headless mode
             getDriver().manage().window()
                     .setSize(new Dimension(1920, 1080));
 
         } else {
 
-            // Normal maximize in headed mode
             getDriver().manage().window().maximize();
         }
 
-        System.out.println("Browser Size : "
-                + getDriver().manage().window().getSize());
+        LOGGER.info("Browser Size : {}",
+                getDriver().manage().window().getSize());
 
         getDriver().manage().deleteAllCookies();
+
+        LOGGER.info("Browser initialized successfully.");
     }
 
     public static WebDriver getDriver() {
@@ -132,6 +167,8 @@ public final class DriverFactory {
     public static void quitDriver() {
 
         if (DRIVER.get() != null) {
+
+            LOGGER.info("Closing browser.");
 
             DRIVER.get().quit();
             DRIVER.remove();

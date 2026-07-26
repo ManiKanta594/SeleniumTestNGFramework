@@ -1,5 +1,7 @@
 package base;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -19,6 +21,9 @@ import utilities.ConfigReader;
 })
 public class BaseTest {
 
+    private static final Logger LOGGER =
+            LogManager.getLogger(BaseTest.class);
+
     protected ConfigReader config;
     protected PageObjectManager pageObjectManager;
 
@@ -36,31 +41,38 @@ public class BaseTest {
             browserType = BrowserType.valueOf(browser.toUpperCase());
         }
 
-        System.out.println("\n==========================================");
-        System.out.println("Thread ID   : " + Thread.currentThread().getId());
-        System.out.println("Browser     : " + browserType);
-        System.out.println("Test Class  : " + this.getClass().getSimpleName());
-        System.out.println("==========================================");
+        LOGGER.info("=================================================");
+        LOGGER.info("Starting Test Execution");
+        LOGGER.info("Thread ID      : {}", Thread.currentThread().getId());
+        LOGGER.info("Test Class     : {}", this.getClass().getSimpleName());
+        LOGGER.info("Browser        : {}", browserType);
+        LOGGER.info("Environment    : {}", config.getEnvironment());
+        LOGGER.info("Application URL: {}", config.getApplicationUrl());
+        LOGGER.info("=================================================");
 
         DriverFactory.initializeDriver(browserType);
 
-        System.out.println("Driver Created : " + DriverFactory.getDriver());
+        LOGGER.info("Driver Created : {}", DriverFactory.getDriver());
 
-        // DriverFactory already maximizes the window and deletes cookies.
+        LOGGER.info("Launching Application...");
+
         DriverFactory.getDriver().get(config.getApplicationUrl());
+
+        LOGGER.info("Application launched successfully.");
 
         pageObjectManager = new PageObjectManager(DriverFactory.getDriver());
 
-        System.out.println("Application Launched");
+        LOGGER.info("Page Object Manager initialized successfully.");
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
 
-        System.out.println("Closing Driver : " + DriverFactory.getDriver());
+        LOGGER.info("Closing Driver : {}", DriverFactory.getDriver());
 
         DriverFactory.quitDriver();
 
-        System.out.println("Driver Closed");
+        LOGGER.info("Driver closed successfully.");
+        LOGGER.info("=================================================");
     }
 }

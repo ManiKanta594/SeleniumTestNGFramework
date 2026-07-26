@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN">
+
+    <Properties>
+
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %c{1} - %msg%n
+        </Property>
+
+        <Property name="LOG_DIR">
+            logs
+        </Property>
+
+    </Properties>
+
+    <Appenders>
+
+        <!-- Console Logger -->
+
+        <Console name="Console"
+                 target="SYSTEM_OUT">
+
+            <PatternLayout
+                    pattern="${LOG_PATTERN}" />
+
+        </Console>
+
+        <!-- Rolling File Logger -->
+
+        <RollingFile
+                name="RollingFile"
+                fileName="${LOG_DIR}/Automation.log"
+                filePattern="${LOG_DIR}/Automation-%d{yyyy-MM-dd}-%i.log.gz">
+
+            <PatternLayout
+                    pattern="${LOG_PATTERN}" />
+
+            <Policies>
+
+                <SizeBasedTriggeringPolicy
+                        size="10 MB"/>
+
+            </Policies>
+
+            <DefaultRolloverStrategy
+                    max="20"/>
+
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="info">
+
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+
+        </Root>
+
+    </Loggers>
+
+</Configuration>

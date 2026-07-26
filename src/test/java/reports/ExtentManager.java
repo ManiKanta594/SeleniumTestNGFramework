@@ -4,6 +4,9 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
@@ -11,6 +14,9 @@ import constants.FrameworkConstants;
 import utilities.ReportDirectoryManager;
 
 public final class ExtentManager {
+
+    private static final Logger LOGGER =
+            LogManager.getLogger(ExtentManager.class);
 
     private static ExtentReports extentReports;
 
@@ -21,6 +27,8 @@ public final class ExtentManager {
     public static ExtentReports getInstance() {
 
         if (extentReports == null) {
+
+            LOGGER.info("Initializing Extent Report...");
 
             // Prepare Latest & Previous folders
             ReportDirectoryManager.prepareReportDirectories();
@@ -43,6 +51,8 @@ public final class ExtentManager {
             extentReports.setSystemInfo("Framework", "Selenium TestNG");
             extentReports.setSystemInfo("Language", "Java");
             extentReports.setSystemInfo("Tester", "Manikanta");
+
+            LOGGER.info("Extent Report initialized successfully.");
         }
 
         return extentReports;
@@ -52,14 +62,16 @@ public final class ExtentManager {
 
         if (extentReports != null) {
 
+            LOGGER.info("Flushing Extent Report...");
+
             extentReports.flush();
 
             File report = new File(
                     FrameworkConstants.LATEST_REPORT_PATH
                             + FrameworkConstants.REPORT_FILE_NAME);
 
-            System.out.println("Extent Report Generated : "
-                    + report.getAbsolutePath());
+            LOGGER.info("Extent Report Generated : {}",
+                    report.getAbsolutePath());
 
             // Open report only if Desktop is supported
             if (Desktop.isDesktopSupported()) {
@@ -72,18 +84,18 @@ public final class ExtentManager {
 
                         desktop.browse(report.toURI());
 
+                        LOGGER.info("Extent Report opened automatically.");
+
                     }
 
                 } catch (IOException e) {
 
-                    System.out.println(
-                            "Unable to open report automatically : "
-                                    + e.getMessage());
+                    LOGGER.error("Unable to open report automatically.", e);
                 }
 
             } else {
 
-                System.out.println(
+                LOGGER.warn(
                         "Desktop mode not available. Report generated successfully.");
             }
         }
