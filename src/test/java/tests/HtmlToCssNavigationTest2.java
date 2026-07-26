@@ -59,5 +59,7 @@ public class HtmlToCssNavigationTest2 extends BaseTest {
 
         ReportManager.logPass(
                 "HTML -> CSS Navigation completed successfully.");
+        
+        org.testng.Assert.fail("Intentional failure for screenshot testing");
     }
 }
