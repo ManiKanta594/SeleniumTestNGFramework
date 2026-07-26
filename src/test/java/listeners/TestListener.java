@@ -9,6 +9,7 @@ import com.aventstack.extentreports.Status;
 
 import reports.ExtentManager;
 import reports.ExtentTestManager;
+import utilities.AllureUtil;
 import utilities.ScreenshotUtil;
 
 public class TestListener implements ITestListener {
@@ -60,10 +61,19 @@ public class TestListener implements ITestListener {
                     ScreenshotUtil.captureScreenshot(
                             result.getMethod().getMethodName());
 
+            // Attach screenshot to Extent Report
             ExtentTestManager.getTest()
                     .addScreenCaptureFromPath(screenshot);
 
-            LOGGER.info("Screenshot attached to Extent Report.");
+            // Attach screenshot to Allure Report
+            AllureUtil.attachScreenshot();
+
+            // Attach exception to Allure
+            AllureUtil.attachText(
+                    "Exception",
+                    result.getThrowable().toString());
+
+            LOGGER.info("Screenshot attached to Extent and Allure Report.");
 
         } catch (Exception e) {
 
