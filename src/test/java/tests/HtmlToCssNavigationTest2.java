@@ -54,9 +54,9 @@ public class HtmlToCssNavigationTest2 extends BaseTest {
         cssPage.clickCSSHome();
 
         // Intentional failure for testing automatic Allure screenshot capture
-        org.testng.Assert.fail("Intentional failure for automatic Allure screenshot testing");
+       // org.testng.Assert.fail("Intentional failure for automatic Allure screenshot testing");
 
-        // homePage.logout();
-        // ReportManager.logPass("HTML -> CSS Navigation completed successfully.");
+        homePage.logout();
+        ReportManager.logPass("HTML -> CSS Navigation completed successfully.");
     }
 }
