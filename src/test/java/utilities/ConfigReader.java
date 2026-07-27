@@ -121,21 +121,31 @@ public final class ConfigReader {
 
     private String getFrameworkProperty(String key) {
 
-        return frameworkProperties
-                .getProperty(key)
-                .trim();
+        String value = frameworkProperties.getProperty(key);
+
+        if (value == null) {
+            throw new RuntimeException(
+                    "Property '" + key + "' not found in framework.properties");
+        }
+
+        return value.trim();
     }
 
     private String getEnvironmentProperty(String key) {
 
-        return environmentProperties
-                .getProperty(key)
-                .trim();
+        String value = environmentProperties.getProperty(key);
+
+        if (value == null) {
+            throw new RuntimeException(
+                    "Property '" + key + "' not found in environment properties");
+        }
+
+        return value.trim();
     }
 
     /**
      * Priority:
-     * 1. System Property (-D)
+     * 1. JVM System Property (-D)
      * 2. framework.properties
      */
     private String getProperty(String key) {
@@ -168,14 +178,26 @@ public final class ConfigReader {
                 getProperty("headless"));
     }
 
-    public String getExecutionMode() {
+    // Test Case Execution Mode
+    public String getTestExecutionMode() {
 
-        return getProperty("execution.mode");
+        return getProperty("test.execution.mode");
+    }
+
+    // Driver Execution Mode
+    public String getDriverExecutionMode() {
+
+        return getProperty("driver.execution.mode");
+    }
+
+    public String getTestCaseIds() {
+
+        return getProperty("testcase.ids");
     }
 
     public boolean isGridExecution() {
 
-        return getExecutionMode()
+        return getDriverExecutionMode()
                 .equalsIgnoreCase("GRID");
     }
 
