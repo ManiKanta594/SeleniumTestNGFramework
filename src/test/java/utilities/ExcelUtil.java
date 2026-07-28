@@ -334,4 +334,37 @@ public final class ExcelUtil {
 
         return false;
     }
+    
+    public static String[] getTestDataByTCID(String tcId) {
+
+        try (FileInputStream fis = new FileInputStream(FILE_PATH);
+             XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+
+            XSSFSheet sheet = workbook.getSheet("Registration");
+
+            DataFormatter formatter = new DataFormatter();
+
+            int rowNumber = findRowByTCID(sheet, tcId);
+
+            Row row = sheet.getRow(rowNumber);
+
+            return new String[] {
+
+                    formatter.formatCellValue(row.getCell(getColumnIndex(sheet, "TC_ID"))),
+
+                    formatter.formatCellValue(row.getCell(getColumnIndex(sheet, "Name"))),
+
+                    formatter.formatCellValue(row.getCell(getColumnIndex(sheet, "Email"))),
+
+                    formatter.formatCellValue(row.getCell(getColumnIndex(sheet, "Phone"))),
+
+                    formatter.formatCellValue(row.getCell(getColumnIndex(sheet, "Address")))
+            };
+
+        } catch (IOException e) {
+
+            throw new RuntimeException("Unable to read Excel.", e);
+
+        }
+    }
 }

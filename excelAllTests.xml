@@ -1,0 +1,29 @@
+<suite name="Regression Suite">
+
+    <listeners>
+        <listener class-name="listeners.SuiteListener"/>
+        <listener class-name="listeners.TestListener"/>
+    </listeners>
+
+    <test name="TC001">
+        <parameter name="tcId" value="TC001"/>
+        <classes>
+            <class name="PracticeTopics.TestCase1"/>
+        </classes>
+    </test>
+
+    <test name="TC002">
+        <parameter name="tcId" value="TC002"/>
+        <classes>
+            <class name="PracticeTopics.TestCase2"/>
+        </classes>
+    </test>
+
+    <test name="TC003">
+        <parameter name="tcId" value="TC003"/>
+        <classes>
+            <class name="PracticeTopics.TestCase3"/>
+        </classes>
+    </test>
+
+</suite>

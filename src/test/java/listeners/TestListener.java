@@ -11,6 +11,7 @@ import reports.ExtentManager;
 import reports.ExtentTestManager;
 import utilities.ScreenshotUtil;
 
+import utilities.ExecutionSummary;
 public class TestListener implements ITestListener {
 
     private static final Logger LOGGER =
@@ -35,8 +36,13 @@ public class TestListener implements ITestListener {
 
         ExtentTestManager.getTest()
                 .log(Status.PASS, "Test Passed");
-    }
 
+        ExecutionSummary summary = ExecutionSummary.getInstance();
+
+        summary.incrementPassedTests();
+        summary.incrementExecutedTests();
+    }
+    
     @Override
     public void onTestFailure(ITestResult result) {
 
@@ -61,6 +67,11 @@ public class TestListener implements ITestListener {
             ExtentTestManager.getTest()
                     .warning("Unable to attach screenshot.");
         }
+        
+        ExecutionSummary summary = ExecutionSummary.getInstance();
+
+        summary.incrementFailedTests();
+        summary.incrementExecutedTests();
     }
 
     @Override
@@ -68,5 +79,10 @@ public class TestListener implements ITestListener {
 
         ExtentTestManager.getTest()
                 .log(Status.SKIP, "Test Skipped");
+
+        ExecutionSummary summary = ExecutionSummary.getInstance();
+
+        summary.incrementSkippedTests();
+        summary.incrementExecutedTests();
     }
 }
