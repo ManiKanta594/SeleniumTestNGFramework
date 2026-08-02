@@ -45,10 +45,7 @@ public class ZTest26_SurrogateKeyValidationTest extends BaseTest {
             description = "Validate Surrogate Key")
     public void validateSurrogateKey() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Surrogate Key Validation",
-                "Validate Business Key Mapping");
+        
 
         // SQL Query
         String surrogateKeyQuery =
@@ -117,8 +114,7 @@ public class ZTest26_SurrogateKeyValidationTest extends BaseTest {
                     0,
                     "Surrogate Key Validation Failed.");
 
-            ReportManager.pass(
-                    "Surrogate Key Validation Passed.");
+           
 
         }
 

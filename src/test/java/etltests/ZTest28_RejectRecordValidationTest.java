@@ -43,10 +43,7 @@ public class ZTest28_RejectRecordValidationTest extends BaseTest {
             description = "Validate Reject Records")
     public void validateRejectRecords() {
 
-        // Start Report
-        ReportManager.startTest(
-                "Reject Record Validation",
-                "Validate Error Table Records");
+        
 
         // SQL Query
         String rejectValidationQuery =
@@ -117,9 +114,7 @@ public class ZTest28_RejectRecordValidationTest extends BaseTest {
                     0,
                     "Reject Record Validation Failed.");
 
-            ReportManager.pass(
-                    "Reject Record Validation Passed.");
-
+           
         }
 
         catch (Exception e) {

@@ -26,10 +26,7 @@ public class Test3_MissingRecordsValidationTest extends BaseTest {
           description = "Validate Missing Records")
     public void validateMissingRecords() {
 
-        // Create Extent Report Test
-        ReportManager.startTest(
-                "Missing Records Validation",
-                "Validate Missing Records between Source and Target");
+       
 
         Statement statement = null;
         ResultSet resultSet = null;
@@ -65,8 +62,7 @@ public class Test3_MissingRecordsValidationTest extends BaseTest {
                     0,
                     "Missing Records Found in Target Table.");
 
-            // Report Pass
-            ReportManager.pass("No Missing Records Found.");
+            
 
         } catch (Exception e) {
 

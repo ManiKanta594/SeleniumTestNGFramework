@@ -43,10 +43,7 @@ public class ZTest18_BusinessRuleValidationTest extends BaseTest {
             description = "Validate Business Rules")
     public void validateBusinessRules() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Business Rule Validation",
-                "Validate Salary, Age and Bonus");
+       
 
         // SQL Query
         String businessRuleQuery =
@@ -133,8 +130,7 @@ public class ZTest18_BusinessRuleValidationTest extends BaseTest {
                     0,
                     "Business Rule Validation Failed.");
 
-            ReportManager.pass(
-                    "Business Rule Validation Passed.");
+            
 
         }
 

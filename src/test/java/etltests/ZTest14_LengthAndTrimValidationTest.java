@@ -40,11 +40,7 @@ public class ZTest14_LengthAndTrimValidationTest extends BaseTest {
 
     public void validateLengthAndTrim() {
 
-        // Start Report
-        ReportManager.startTest(
-                "Length and Trim Validation",
-                "Validate Blank Values, Spaces and Length");
-
+       
         // SQL Query
         String validationQuery =
                 "SELECT CUSTOMER_ID, "
@@ -107,8 +103,7 @@ public class ZTest14_LengthAndTrimValidationTest extends BaseTest {
                     0,
                     "Length / Trim Validation Failed.");
 
-            ReportManager.pass(
-                    "Length / Trim Validation Passed.");
+            
 
         }
 

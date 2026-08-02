@@ -24,11 +24,7 @@ public class Test6_NameValidationTest extends BaseTest {
     @Test(priority = 6, description = "Validate Customer Name")
     public void validateCustomerName() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Customer Name Validation",
-                "Validate Customer Name between Source and Target");
-
+       
         // SQL Query
         String nameValidationQuery =
                 "SELECT "
@@ -87,7 +83,7 @@ public class Test6_NameValidationTest extends BaseTest {
                     0,
                     "Customer Name Validation Failed.");
 
-            ReportManager.pass("Customer Name Validation Passed.");
+            
 
         } catch (Exception e) {
 

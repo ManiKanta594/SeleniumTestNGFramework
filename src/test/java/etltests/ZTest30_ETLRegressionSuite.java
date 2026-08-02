@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 
 public class ZTest30_ETLRegressionSuite {
 
-    @Test
+   
     public void executeRegressionSuite() {
 
         System.out.println();

@@ -41,10 +41,7 @@ public class ZTest15_AggregateValidationTest extends BaseTest {
           description = "Validate Aggregate Functions")
     public void validateAggregateFunctions() {
 
-        // Start Report
-        ReportManager.startTest(
-                "Aggregate Validation",
-                "Validate SUM, AVG, MIN and MAX");
+      
 
         // Source Query
         String sourceQuery =
@@ -155,8 +152,7 @@ public class ZTest15_AggregateValidationTest extends BaseTest {
             Assert.assertEquals(sourceMaximum, targetMaximum,
                     "MAX Validation Failed");
 
-            ReportManager.pass(
-                    "Aggregate Validation Passed.");
+           
 
         }
 

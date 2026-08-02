@@ -34,10 +34,7 @@ public class Test8_CityValidationTest extends BaseTest {
     @Test(priority = 8, description = "Validate Customer City")
     public void validateCity() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "City Validation",
-                "Validate Customer City between Source and Target");
+       
 
         // SQL Query used to identify City mismatches
         String cityValidationQuery =
@@ -117,8 +114,7 @@ public class Test8_CityValidationTest extends BaseTest {
                     0,
                     "City Validation Failed. City mismatches found.");
 
-            ReportManager.pass(
-                    "City Validation Passed. No mismatches found.");
+            
 
         } catch (Exception e) {
 

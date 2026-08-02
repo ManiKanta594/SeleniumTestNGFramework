@@ -34,10 +34,7 @@ public class ZTest10_DuplicateRecordsValidationTest extends BaseTest {
           description = "Validate Duplicate Records")
     public void validateDuplicateRecords() {
 
-        ReportManager.startTest(
-                "Duplicate Record Validation",
-                "Validate Duplicate CUSTOMER_ID");
-
+       
         // SQL Query
         String duplicateQuery =
                 "SELECT CUSTOMER_ID, COUNT(*) TOTAL_RECORDS "
@@ -93,8 +90,7 @@ public class ZTest10_DuplicateRecordsValidationTest extends BaseTest {
                     0,
                     "Duplicate Records Found.");
 
-            ReportManager.pass(
-                    "No Duplicate Records Found.");
+            
 
         } catch (Exception e) {
 

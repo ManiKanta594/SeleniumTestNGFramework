@@ -35,10 +35,7 @@ public class ZTest11_PrimaryKeyValidationTest extends BaseTest {
 
     public void validatePrimaryKey() {
 
-        // Start Report
-        ReportManager.startTest(
-                "Primary Key Validation",
-                "Validate Duplicate Primary Keys");
+       
 
         // SQL Query
         String primaryKeyValidationQuery =
@@ -100,8 +97,7 @@ public class ZTest11_PrimaryKeyValidationTest extends BaseTest {
                     0,
                     "Duplicate Primary Keys Found.");
 
-            ReportManager.pass(
-                    "Primary Key Validation Passed.");
+            
 
         } catch (Exception e) {
 

@@ -35,10 +35,7 @@ public class ZTest12_NullValueValidationTest extends BaseTest {
           description = "Validate NULL Values")
     public void validateNullValues() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "NULL Value Validation",
-                "Validate Mandatory Columns for NULL Values");
+        
 
         // SQL Query
         String nullValidationQuery =
@@ -107,8 +104,7 @@ public class ZTest12_NullValueValidationTest extends BaseTest {
                     0,
                     "NULL Values Found.");
 
-            ReportManager.pass(
-                    "NULL Value Validation Passed.");
+            
 
         } catch (Exception e) {
 

@@ -22,10 +22,7 @@ public class Test2_ColumnCountValidationTest extends BaseTest {
           description = "Validate Source and Target Column Count")
     public void validateColumnCount() {
 
-        ReportManager.startTest(
-                "Column Count Validation",
-                "Validate Source and Target Column Count");
-
+        
         // Execute Queries
         int sourceColumns =
                 DatabaseUtil.getRecordCount(SQLQueries.SOURCE_COLUMN_COUNT);
@@ -49,7 +46,7 @@ public class Test2_ColumnCountValidationTest extends BaseTest {
                 targetColumns,
                 "Column Count Validation Failed.");
 
-        ReportManager.pass("Column Count Validation Passed.");
+        
 
     }
 

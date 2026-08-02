@@ -34,10 +34,7 @@ public class ZTest13_DataTypeValidationTest extends BaseTest {
           description = "Validate Data Type")
     public void validateDataType() {
 
-        // Start Report
-        ReportManager.startTest(
-                "Data Type Validation",
-                "Validate Salary Data Type");
+       
 
         // SQL Query
         String dataTypeValidationQuery =
@@ -100,8 +97,7 @@ public class ZTest13_DataTypeValidationTest extends BaseTest {
                     0,
                     "Invalid Data Type Found.");
 
-            ReportManager.pass(
-                    "Data Type Validation Passed.");
+            
 
         } catch (Exception e) {
 

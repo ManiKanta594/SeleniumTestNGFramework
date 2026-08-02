@@ -46,11 +46,7 @@ public class ZTest27_FactDimensionValidationTest extends BaseTest {
             description = "Validate Fact Dimension Mapping")
     public void validateFactDimensionMapping() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Fact Dimension Validation",
-                "Validate Fact Table Mapping");
-
+        
         // SQL Query
         String factValidationQuery =
                 "SELECT "
@@ -126,8 +122,7 @@ public class ZTest27_FactDimensionValidationTest extends BaseTest {
                     0,
                     "Fact Dimension Validation Failed.");
 
-            ReportManager.pass(
-                    "Fact Dimension Validation Passed.");
+            
 
         }
 

@@ -33,10 +33,7 @@ public class Test9_EmailValidationTest extends BaseTest {
     @Test(priority = 9, description = "Validate Customer Email")
     public void validateEmail() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Email Validation",
-                "Validate Customer Email between Source and Target");
+     
 
         // SQL Query
         String emailValidationQuery =
@@ -102,7 +99,7 @@ public class Test9_EmailValidationTest extends BaseTest {
                     0,
                     "Email Validation Failed.");
 
-            ReportManager.pass("Email Validation Passed.");
+           
 
         } catch (Exception e) {
 

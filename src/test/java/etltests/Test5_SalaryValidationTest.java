@@ -23,10 +23,7 @@ public class Test5_SalaryValidationTest extends BaseTest {
     @Test(priority = 5, description = "Validate Salary Mismatch")
     public void validateSalaryMismatch() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Salary Validation",
-                "Validate Salary between Source and Target");
+       
 
         // SQL Query
         String salaryValidationQuery =
@@ -95,8 +92,7 @@ public class Test5_SalaryValidationTest extends BaseTest {
                     0,
                     "Salary Mismatch Found.");
 
-            // Report PASS
-            ReportManager.pass("Salary Validation Passed.");
+            
 
         } catch (Exception e) {
 

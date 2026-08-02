@@ -39,11 +39,7 @@ public class ZTest16_LookupValidationTest extends BaseTest {
             description = "Validate Lookup Data")
     public void validateLookupData() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Lookup Validation",
-                "Validate Department Lookup");
-
+        
         // SQL Query
         String lookupValidationQuery =
                 "SELECT DISTINCT T.DEPARTMENT "
@@ -103,8 +99,7 @@ public class ZTest16_LookupValidationTest extends BaseTest {
                     0,
                     "Invalid Lookup Values Found.");
 
-            ReportManager.pass(
-                    "Lookup Validation Passed.");
+           
 
         }
 

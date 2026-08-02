@@ -26,11 +26,7 @@ public class Test4_ExtraRecordsValidationTest extends BaseTest {
           description = "Validate Extra Records")
     public void validateExtraRecords() {
 
-        // Create Extent Report Test
-        ReportManager.startTest(
-                "Extra Records Validation",
-                "Validate Extra Records between Source and Target");
-
+        
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -65,8 +61,7 @@ public class Test4_ExtraRecordsValidationTest extends BaseTest {
                     0,
                     "Extra Records Found in Target Table.");
 
-            // Report Pass
-            ReportManager.pass("No Extra Records Found.");
+          
 
         } catch (Exception e) {
 

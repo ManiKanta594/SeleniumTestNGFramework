@@ -46,10 +46,7 @@ public class ZTest20_FullTableComparisonTest extends BaseTest {
             description = "Full Table Comparison")
     public void validateFullTableComparison() {
 
-        // Start Report
-        ReportManager.startTest(
-                "Full Table Comparison",
-                "Validate Complete Source and Target Data");
+       
 
         // Source Minus Target
         String sourceMinusTargetQuery =
@@ -177,8 +174,7 @@ public class ZTest20_FullTableComparisonTest extends BaseTest {
                     0,
                     "Full Table Comparison Failed.");
 
-            ReportManager.pass(
-                    "Full Table Comparison Passed.");
+            
 
         }
 

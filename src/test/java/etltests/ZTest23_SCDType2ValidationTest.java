@@ -43,11 +43,7 @@ public class ZTest23_SCDType2ValidationTest extends BaseTest {
           description = "Validate SCD Type-2")
     public void validateSCDType2() {
 
-        // Start Report
-        ReportManager.startTest(
-                "SCD Type-2 Validation",
-                "Validate Historical Records");
-
+       
         // SQL Query
         String scdValidationQuery =
                 "SELECT CUSTOMER_ID, "
@@ -113,9 +109,7 @@ public class ZTest23_SCDType2ValidationTest extends BaseTest {
                     0,
                     "SCD Type-2 Validation Failed.");
 
-            ReportManager.pass(
-                    "SCD Type-2 Validation Passed.");
-
+           
         }
 
         catch(Exception e) {

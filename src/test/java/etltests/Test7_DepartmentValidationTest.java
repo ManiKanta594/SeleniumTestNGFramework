@@ -23,11 +23,7 @@ public class Test7_DepartmentValidationTest extends BaseTest {
     @Test(priority = 7, description = "Validate Department")
     public void validateDepartment() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Department Validation",
-                "Validate Department between Source and Target");
-
+        
         // SQL Query
         String departmentValidationQuery =
                 "SELECT "
@@ -90,7 +86,7 @@ public class Test7_DepartmentValidationTest extends BaseTest {
                     0,
                     "Department Validation Failed.");
 
-            ReportManager.pass("Department Validation Passed.");
+           
 
         } catch (Exception e) {
 

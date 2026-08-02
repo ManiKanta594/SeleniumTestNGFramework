@@ -40,11 +40,7 @@ public class ZTest19_SourceTargetDataComparisonTest extends BaseTest {
           description = "Compare Source and Target Data")
     public void compareSourceAndTargetData() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Source Target Data Comparison",
-                "Compare Source and Target Tables");
-
+      
         // SQL Query
         String comparisonQuery =
                 "SELECT * FROM CUSTOMER_SOURCE "
@@ -113,8 +109,7 @@ public class ZTest19_SourceTargetDataComparisonTest extends BaseTest {
                     0,
                     "Source and Target Data Mismatch Found.");
 
-            ReportManager.pass(
-                    "Source Target Comparison Passed.");
+            
 
         }
 

@@ -42,10 +42,7 @@ public class ZTest17_ReferentialIntegrityValidationTest extends BaseTest {
           description = "Validate Referential Integrity")
     public void validateReferentialIntegrity() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Referential Integrity Validation",
-                "Validate Department Master Mapping");
+        
 
         // SQL Query
         String referentialIntegrityQuery =
@@ -113,8 +110,7 @@ public class ZTest17_ReferentialIntegrityValidationTest extends BaseTest {
                     0,
                     "Referential Integrity Validation Failed.");
 
-            ReportManager.pass(
-                    "Referential Integrity Validation Passed.");
+            
 
         }
 

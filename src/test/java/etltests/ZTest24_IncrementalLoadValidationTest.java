@@ -40,11 +40,7 @@ public class ZTest24_IncrementalLoadValidationTest extends BaseTest {
             description = "Validate Incremental Load")
     public void validateIncrementalLoad() {
 
-        // Start Report
-        ReportManager.startTest(
-                "Incremental Load Validation",
-                "Validate Incremental ETL Load");
-
+        
         // SQL Query
         String incrementalLoadQuery =
                 "SELECT "
@@ -110,9 +106,7 @@ public class ZTest24_IncrementalLoadValidationTest extends BaseTest {
                     0,
                     "Incremental Load Validation Failed.");
 
-            ReportManager.pass(
-                    "Incremental Load Validation Passed.");
-
+           
         }
 
         catch (Exception e) {

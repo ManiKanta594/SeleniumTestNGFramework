@@ -21,11 +21,7 @@ public class Test1_RowCountValidationTest extends BaseTest {
     @Test(priority = 1, description = "Validate Source and Target Row Count")
     public void validateRowCount() {
 
-        // Start Test in Extent Report
-        ReportManager.startTest(
-                "Row Count Validation",
-                "Validate Source and Target Row Count");
-
+        
         // Execute Source Query
         int sourceCount =
                 DatabaseUtil.getRecordCount(SQLQueries.SOURCE_ROW_COUNT);
@@ -50,8 +46,7 @@ public class Test1_RowCountValidationTest extends BaseTest {
                 targetCount,
                 "Row Count Validation Failed.");
 
-        // Report PASS
-        ReportManager.pass("Row Count Validation Passed.");
+       
 
     }
 

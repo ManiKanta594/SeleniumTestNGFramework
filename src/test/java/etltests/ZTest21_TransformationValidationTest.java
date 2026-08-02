@@ -43,10 +43,7 @@ public class ZTest21_TransformationValidationTest extends BaseTest {
           description = "Validate ETL Transformation Logic")
     public void validateTransformationLogic() {
 
-        // Start Report
-        ReportManager.startTest(
-                "Transformation Validation",
-                "Validate Salary Transformation");
+       
 
         // SQL Query
         String transformationQuery =
@@ -126,9 +123,7 @@ public class ZTest21_TransformationValidationTest extends BaseTest {
                     0,
                     "Transformation Validation Failed.");
 
-            ReportManager.pass(
-                    "Transformation Validation Passed.");
-
+           
         }
 
         catch (Exception e) {

@@ -45,10 +45,7 @@ public class ZTest29_ETLAuditValidationTest extends BaseTest {
             description = "Validate ETL Audit Table")
     public void validateETLAudit() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "ETL Audit Validation",
-                "Validate ETL Audit Information");
+       
 
         // SQL Query
         String auditQuery =
@@ -113,6 +110,18 @@ public class ZTest29_ETLAuditValidationTest extends BaseTest {
                 java.sql.Timestamp endTime =
                         resultSet.getTimestamp("END_TIME");
 
+                
+                ReportManager.info("Job Name : " + jobName);
+                ReportManager.info("Source Records : " + sourceRecords);
+                ReportManager.info("Target Records : " + targetRecords);
+                ReportManager.info("Insert Count : " + insertCount);
+                ReportManager.info("Update Count : " + updateCount);
+                ReportManager.info("Reject Count : " + rejectCount);
+                ReportManager.info("Job Status : " + jobStatus);
+                ReportManager.info("Start Time : " + startTime);
+                ReportManager.info("End Time : " + endTime);
+                
+                
                 System.out.println("Job Name         : " + jobName);
                 System.out.println("Source Records   : " + sourceRecords);
                 System.out.println("Target Records   : " + targetRecords);
@@ -137,8 +146,7 @@ public class ZTest29_ETLAuditValidationTest extends BaseTest {
 
                     System.out.println("Validation Status : PASSED");
 
-                    ReportManager.pass(
-                            "Job Passed : " + jobName);
+                    
 
                 }
 

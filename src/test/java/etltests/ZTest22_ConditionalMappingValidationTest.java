@@ -39,131 +39,121 @@ import etl.ReportManager;
 
 public class ZTest22_ConditionalMappingValidationTest extends BaseTest {
 
-    @Test(priority = 22,
-          description = "Validate Conditional Mapping")
-    public void validateConditionalMapping() {
+	@Test(priority = 22,
+		      description = "Validate Conditional Mapping")
+		public void validateConditionalMapping() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "Conditional Mapping Validation",
-                "Validate Salary Band Mapping");
+		    ReportManager.info("Starting Conditional Mapping Validation...");
+		    ReportManager.info("Validating Salary Band Mapping between Source Logic and Target Table.");
 
-        // SQL Query
-        String mappingValidationQuery =
-                "SELECT "
-              + "T.CUSTOMER_ID, "
-              + "T.CUSTOMER_NAME, "
-              + "T.SALARY, "
-              + "CASE "
-              + "WHEN T.SALARY <= 30000 THEN 'LOW' "
-              + "WHEN T.SALARY BETWEEN 30001 AND 60000 THEN 'MEDIUM' "
-              + "ELSE 'HIGH' "
-              + "END AS EXPECTED_BAND, "
-              + "T.SALARY_BAND "
-              + "FROM CUSTOMER_TARGET T "
-              + "WHERE CASE "
-              + "WHEN T.SALARY <= 30000 THEN 'LOW' "
-              + "WHEN T.SALARY BETWEEN 30001 AND 60000 THEN 'MEDIUM' "
-              + "ELSE 'HIGH' "
-              + "END <> T.SALARY_BAND";
+		    String mappingValidationQuery =
+		            "SELECT "
+		          + "T.CUSTOMER_ID, "
+		          + "T.CUSTOMER_NAME, "
+		          + "T.SALARY, "
+		          + "CASE "
+		          + "WHEN T.SALARY <= 30000 THEN 'LOW' "
+		          + "WHEN T.SALARY BETWEEN 30001 AND 60000 THEN 'MEDIUM' "
+		          + "ELSE 'HIGH' "
+		          + "END AS EXPECTED_BAND, "
+		          + "T.SALARY_BAND "
+		          + "FROM CUSTOMER_TARGET T "
+		          + "WHERE CASE "
+		          + "WHEN T.SALARY <= 30000 THEN 'LOW' "
+		          + "WHEN T.SALARY BETWEEN 30001 AND 60000 THEN 'MEDIUM' "
+		          + "ELSE 'HIGH' "
+		          + "END <> T.SALARY_BAND";
 
-        // Variable Declaration
-        Statement statement = null;
-        ResultSet resultSet = null;
+		    Statement statement = null;
+		    ResultSet resultSet = null;
 
-        int mismatchCount = 0;
+		    int mismatchCount = 0;
 
-        try {
+		    try {
 
-            // Create Statement
-            statement =
-                    DatabaseUtil.getConnection().createStatement();
+		        ReportManager.info("Executing SQL Query...");
 
-            // Execute Query
-            resultSet =
-                    statement.executeQuery(mappingValidationQuery);
+		        statement = DatabaseUtil.getConnection().createStatement();
 
-            System.out.println("==================================================================");
-            System.out.println("         CONDITIONAL MAPPING VALIDATION");
-            System.out.println("==================================================================");
+		        resultSet = statement.executeQuery(mappingValidationQuery);
 
-            while (resultSet.next()) {
+		        System.out.println("==================================================================");
+		        System.out.println("         CONDITIONAL MAPPING VALIDATION");
+		        System.out.println("==================================================================");
 
-                mismatchCount++;
+		        while (resultSet.next()) {
 
-                int customerId =
-                        resultSet.getInt("CUSTOMER_ID");
+		            mismatchCount++;
 
-                String customerName =
-                        resultSet.getString("CUSTOMER_NAME");
+		            int customerId = resultSet.getInt("CUSTOMER_ID");
+		            String customerName = resultSet.getString("CUSTOMER_NAME");
+		            double salary = resultSet.getDouble("SALARY");
+		            String expectedBand = resultSet.getString("EXPECTED_BAND");
+		            String actualBand = resultSet.getString("SALARY_BAND");
 
-                double salary =
-                        resultSet.getDouble("SALARY");
+		            System.out.println("Customer ID       : " + customerId);
+		            System.out.println("Customer Name     : " + customerName);
+		            System.out.println("Salary            : " + salary);
+		            System.out.println("Expected Band     : " + expectedBand);
+		            System.out.println("Actual Band       : " + actualBand);
+		            System.out.println("Validation Status : FAILED");
+		            System.out.println("-------------------------------------------------------------");
 
-                String expectedBand =
-                        resultSet.getString("EXPECTED_BAND");
+		            ReportManager.fail(
+		                    "Customer ID : " + customerId
+		                  + " | Name : " + customerName
+		                  + " | Salary : " + salary
+		                  + " | Expected : " + expectedBand
+		                  + " | Actual : " + actualBand);
 
-                String actualBand =
-                        resultSet.getString("SALARY_BAND");
+		        }
 
-                System.out.println("Customer ID        : " + customerId);
-                System.out.println("Customer Name      : " + customerName);
-                System.out.println("Salary             : " + salary);
-                System.out.println("Expected Band      : " + expectedBand);
-                System.out.println("Actual Band        : " + actualBand);
-                System.out.println("Validation Status  : FAILED");
-                System.out.println("------------------------------------------------------------------");
+		        ReportManager.info("Total Mapping Errors : " + mismatchCount);
 
-                ReportManager.info(
-                        "Customer ID : " + customerId
-                      + " | Name : " + customerName
-                      + " | Expected : " + expectedBand
-                      + " | Actual : " + actualBand);
+		        System.out.println("==================================================================");
+		        System.out.println("Mapping Errors : " + mismatchCount);
+		        System.out.println("==================================================================");
 
-            }
+		        if (mismatchCount == 0) {
 
-            System.out.println("==================================================================");
-            System.out.println("Mapping Errors : " + mismatchCount);
-            System.out.println("==================================================================");
+		            ReportManager.info("No Conditional Mapping mismatches found.");
+		            ReportManager.pass("Conditional Mapping Validation Passed Successfully.");
 
-            Assert.assertEquals(
-                    mismatchCount,
-                    0,
-                    "Conditional Mapping Validation Failed.");
+		        } else {
 
-            ReportManager.pass(
-                    "Conditional Mapping Validation Passed.");
+		            ReportManager.fail("Conditional Mapping Validation Failed.");
+		            ReportManager.fail("Total Mapping Errors : " + mismatchCount);
 
-        }
+		            Assert.fail("Conditional Mapping Validation Failed.");
 
-        catch (Exception e) {
+		        }
 
-            ReportManager.fail(e.getMessage());
+		    }
+		    catch (Exception e) {
 
-            Assert.fail(e.getMessage());
+		        ReportManager.fail("Exception Occurred : " + e.getMessage());
 
-        }
+		        Assert.fail(e.getMessage());
 
-        finally {
+		    }
+		    finally {
 
-            try {
+		        try {
 
-                if(resultSet != null)
-                    resultSet.close();
+		            if (resultSet != null)
+		                resultSet.close();
 
-                if(statement != null)
-                    statement.close();
+		            if (statement != null)
+		                statement.close();
 
-            }
+		        }
+		        catch (Exception e) {
 
-            catch(Exception e) {
+		            e.printStackTrace();
 
-                e.printStackTrace();
+		        }
 
-            }
+		    }
 
-        }
-
-    }
-
+		}
 }

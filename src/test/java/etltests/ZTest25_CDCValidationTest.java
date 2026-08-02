@@ -41,11 +41,7 @@ public class ZTest25_CDCValidationTest extends BaseTest {
             description = "Validate Change Data Capture")
     public void validateCDC() {
 
-        // Start Extent Report
-        ReportManager.startTest(
-                "CDC Validation",
-                "Validate Change Data Capture");
-
+        
         // SQL Query
         String cdcValidationQuery =
                 "SELECT "
@@ -126,8 +122,7 @@ public class ZTest25_CDCValidationTest extends BaseTest {
                     0,
                     "CDC Validation Failed.");
 
-            ReportManager.pass(
-                    "CDC Validation Passed.");
+           
 
         }
 
