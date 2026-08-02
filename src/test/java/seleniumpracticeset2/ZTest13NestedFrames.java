@@ -23,7 +23,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 
-public class Ztest12Frames {
+public class ZTest13NestedFrames {
 
     WebDriver driver;
 
@@ -41,60 +41,41 @@ public class Ztest12Frames {
         WebDriverWait wait =
                 new WebDriverWait(driver, Duration.ofSeconds(10));
                            
-     // Switch to Frame 1
-        driver.switchTo().frame(0);
+     // Switch to Frame 3
+        WebElement frame3 =
+        driver.findElement(By.xpath("//frame[@src='frame_3.html']"));
 
-        // Enter text
-        driver.findElement(By.name("mytext1"))
-              .sendKeys("Manikanta");
+        driver.switchTo().frame(frame3);
 
-       
-        // Return to Main Page
+        // Switch to Google Form
+        WebElement googleFrame =
+        driver.findElement(By.tagName("iframe"));
+
+        driver.switchTo().frame(googleFrame);
+
+        // Now Selenium is inside Google Form
+        
+        WebElement radio = driver.findElement(
+                By.xpath("//div[@role='radio' and @aria-label='I am a human']")
+        );
+        scrollToElement(radio);
+
+        radio.click();
+        
+        takeScreenshot("ZTest13_NestedFrame");
+        //switch to Parent Frame
+        
+        driver.switchTo().parentFrame();
+        
+        //Switch to default Content
         driver.switchTo().defaultContent();
-
-       
         
-        //Frame 2
+        driver.switchTo().parentFrame();
         
-        driver.switchTo().frame(1);
-        
-        driver.findElement(By.name("mytext2"))
-        .sendKeys("Selenium");
-       
-        
-        
-        driver.switchTo().defaultContent();
         
        
         
-        //Frame 3
      
-        driver.switchTo().frame(2);
-        
-        driver.findElement(By.name("mytext3"))
-        .sendKeys("This is Frame3");
-        
-       
-       
-        driver.switchTo().defaultContent();
-        
-        
-        
-      
-        //Frame 4
-        
-        driver.switchTo().frame(3);
-        
-        driver.findElement(By.name("mytext4"))
-        .sendKeys("This is Frame 4");
-        
-        takeScreenshot("Ztest12_Frame");
-       
-        driver.switchTo().defaultContent();
-        
-        
-      //**We Mostly use 3rd way to handle frames using frame webelement
-        
        
        Thread.sleep(5000);
        

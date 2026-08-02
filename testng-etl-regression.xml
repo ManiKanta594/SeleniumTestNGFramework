@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="ETL Regression Suite">
+
+    <test name="ETL Regression Tests">
+
+        <classes>
+
+            <class name="etltests.Test1_RowCountValidationTest"/>
+            <class name="etltests.Test2_ColumnCountValidationTest"/>
+            <class name="etltests.Test3_MissingRecordsValidationTest"/>
+            <class name="etltests.Test4_ExtraRecordsValidationTest"/>
+            <class name="etltests.Test5_SalaryValidationTest"/>
+            <class name="etltests.Test6_NameValidationTest"/>
+            <class name="etltests.Test7_DepartmentValidationTest"/>
+            <class name="etltests.Test8_CityValidationTest"/>
+            <class name="etltests.Test9_EmailValidationTest"/>
+
+            <class name="etltests.ZTest10_DuplicateRecordsValidationTest"/>
+            <class name="etltests.ZTest11_PrimaryKeyValidationTest"/>
+            <class name="etltests.ZTest12_NullValueValidationTest"/>
+            <class name="etltests.ZTest13_DataTypeValidationTest"/>
+            <class name="etltests.ZTest14_LengthAndTrimValidationTest"/>
+            <class name="etltests.ZTest15_AggregateValidationTest"/>
+            <class name="etltests.ZTest16_LookupValidationTest"/>
+            <class name="etltests.ZTest17_ReferentialIntegrityValidationTest"/>
+            <class name="etltests.ZTest18_BusinessRuleValidationTest"/>
+            <class name="etltests.ZTest19_SourceTargetDataComparisonTest"/>
+            <class name="etltests.ZTest20_FullTableComparisonTest"/>
+            <class name="etltests.ZTest21_TransformationValidationTest"/>
+            <class name="etltests.ZTest22_ConditionalMappingValidationTest"/>
+            <class name="etltests.ZTest23_SCDType2ValidationTest"/>
+            <class name="etltests.ZTest24_IncrementalLoadValidationTest"/>
+            <class name="etltests.ZTest25_CDCValidationTest"/>
+            <class name="etltests.ZTest26_SurrogateKeyValidationTest"/>
+            <class name="etltests.ZTest27_FactDimensionValidationTest"/>
+            <class name="etltests.ZTest28_RejectRecordValidationTest"/>
+            <class name="etltests.ZTest29_ETLAuditValidationTest"/>
+            <class name="etltests.ZTest30_ETLRegressionSuite"/>
+
+        </classes>
+
+    </test>
+
+</suite>
