@@ -90,6 +90,17 @@
     <version>4.12.0</version>
 </dependency>
 
+
+<!-- ===================================================== -->
+<!-- Jackson JSON Library                                  -->
+<!-- Used to Parse OpenAI JSON Response                    -->
+<!-- ===================================================== -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.19.2</version>
+</dependency>
+
 <dependency>
     <groupId>org.aspectj</groupId>
     <artifactId>aspectjweaver</artifactId>

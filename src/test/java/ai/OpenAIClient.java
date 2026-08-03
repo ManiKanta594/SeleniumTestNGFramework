@@ -60,9 +60,8 @@ public class OpenAIClient {
     // Better Approach:
     // Read this from config.properties later.
     // ==========================================================
-    private static final String API_KEY =
-            "PASTE_YOUR_OPENAI_API_KEY";
-
+   private static final String API_KEY =
+            "YOUR_OPENAI_API_KEY_HERE";
     // ==========================================================
     // JSON Media Type
     // ==========================================================
@@ -128,6 +127,8 @@ public class OpenAIClient {
         // ======================================================
         // Build HTTP Request
         // ======================================================
+        
+        
         Request request =
                 new Request.Builder()
 
